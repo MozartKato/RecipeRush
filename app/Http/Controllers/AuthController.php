@@ -75,8 +75,8 @@ class AuthController extends Controller
         return response()->json(['message' => 'Admin registered successfully'], 201);
     }
 
-    public function getInfoUser(){
-        $user = auth()->user();
-        return response()->json($user, 200);
+    public function logout(Request $request){
+        auth()->user()->tokens()->delete();
+        return response()->json(['message' => 'Logout successful'], 200);
     }
 }
