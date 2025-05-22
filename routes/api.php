@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RecipeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -22,3 +23,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/user', [UserController::class, 'updateUser']);
     Route::post('/logout', [AuthController::class, 'logout']);
 });
+
+Route::get('/test',[RecipeController::class, 'getAllRecipes']);
