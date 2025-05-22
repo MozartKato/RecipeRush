@@ -7,9 +7,16 @@ use App\Models\Recipe;
 
 class RecipeController extends Controller
 {
-    public function getAllRecipes()
+    public function getAllPublishedRecipes()
     {
         $recipes = Recipe::where('status', 'published')->with(['ingredients', 'steps'])->get();
+
+        return response()->json($recipes, 200);
+    }
+
+    public function getAllRecipes()
+    {
+        $recipes = Recipe::with(['ingredients', 'steps'])->get();
 
         return response()->json($recipes, 200);
     }
@@ -19,17 +26,23 @@ class RecipeController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'status' => 'required|in:draft,published',
+            'portion' => 'nullable|string|max:50',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'status' => 'required|in:draft,pending',
             'ingredients' => 'required|array',
             'ingredients.*.name' => 'required|string',
             'ingredients.*.quantity' => 'required|string',
             'steps' => 'required|array',
-            'steps.*.description' => 'required|string',
+            'steps.*.step_number' => 'required|integer',
+            'steps.*.instruction' => 'required|string',
         ]);
 
         $recipe = Recipe::create([
             'title' => $validated['title'],
+            'user_id' => $request->user()->id,
             'description' => $validated['description'] ?? null,
+            'portion' => $validated['portion'] ?? null,
+            'image' => $validated['image'] ?? null,
             'status' => $validated['status'],
         ]);
 

@@ -22,6 +22,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', [UserController::class, 'getInfoUser']);
     Route::put('/user', [UserController::class, 'updateUser']);
     Route::post('/logout', [AuthController::class, 'logout']);
+
+    // Recipe routes
+    Route::get('/recipes', [RecipeController::class, 'getAllPublishedRecipes']);
+    Route::post('/recipes', [RecipeController::class, 'createRecipe']);
 });
 
-Route::get('/test',[RecipeController::class, 'getAllRecipes']);
+// Admin routes
+Route::middleware(['auth:sanctum', 'ability:admin'])->group(function (){
+    Route::get('/admin/recipes', [RecipeController::class, 'getAllRecipes']);
+});
