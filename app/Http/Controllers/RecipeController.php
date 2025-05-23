@@ -55,4 +55,18 @@ class RecipeController extends Controller
 
         return response()->json($recipe->load(['ingredients', 'steps']), 201);
     }
+
+    public function updateStatus(Request $request)
+    {
+        $validated = $request->validate([
+            'id' => 'required|integer|exists:recipes,id',
+            'status' => 'required|in:rejected,published',
+        ]);
+
+        $recipe = Recipe::findOrFail($validated['id']);
+        $recipe->status = $validated['status'];
+        $recipe->save();
+
+        return response()->json($recipe, 200);
+    }
 }

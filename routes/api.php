@@ -31,4 +31,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // Admin routes
 Route::middleware(['auth:sanctum', 'ability:admin'])->group(function (){
     Route::get('/admin/recipes', [RecipeController::class, 'getAllRecipes']);
+    Route::put('/admin/update', [RecipeController::class, 'updateStatus']);
 });
