@@ -69,4 +69,13 @@ class RecipeController extends Controller
 
         return response()->json($recipe, 200);
     }
+
+    public function getAllUserRecipes(Request $request)
+    {
+        $recipes = Recipe::where('user_id', $request->user()->id)
+            ->with(['ingredients', 'steps'])
+            ->get();
+
+        return response()->json($recipes, 200);
+    }
 }

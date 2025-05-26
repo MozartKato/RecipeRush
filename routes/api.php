@@ -26,6 +26,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Recipe routes
     Route::get('/recipes', [RecipeController::class, 'getAllPublishedRecipes']);
     Route::post('/recipes', [RecipeController::class, 'createRecipe']);
+    Route::get('/user/recipes', [RecipeController::class, 'getAllUserRecipes']);
 });
 
 // Admin routes
